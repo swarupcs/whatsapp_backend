@@ -38,4 +38,4 @@ process.on("SIGTERM", () => {
         logger.info("Server closed. ");
         process.exit(1);
     } 
-});
+}); 
