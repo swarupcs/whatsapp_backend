@@ -9,7 +9,7 @@ const userSceham = mongoose.Schema({
     },
     email: {
         type: String,
-        required: [type, "Please provide your email addres"],
+        required: [true, "Please provide your email addres"],
         unique: [true,"This email address already exist"],
         lowercase:true,
         validate: [validator.isEmail, "Please provide a valid email address"]
@@ -24,7 +24,7 @@ const userSceham = mongoose.Schema({
     },
     password: {
         type: String,
-        required:[type, "Please provide your password"],
+        required:[true, "Please provide your password"],
         minLength: [
             6," Please make sure password is atleat 6 characters long",
         ],
