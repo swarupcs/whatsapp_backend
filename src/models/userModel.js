@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcrypt"; 
 
 
-const userSceham = mongoose.Schema({
+const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please provide your name"],
@@ -37,6 +38,19 @@ const userSceham = mongoose.Schema({
     timestamps: true,
 });
 
-const UserModel = mongoose.models.UserModel || mongoose.model('userModel', userSceham);
+userSchema.pre('save', async function(next) {
+    try {
+        if(this.isNew) {
+            const salt = await bcrypt.genSalt(12);
+            const hashedPassword = await bcrypt.hash(this.password, salt);
+            this.password = hashedPassword; 
+        }
+        next();
+    } catch(error) {
+        next(error)
+    }
+})
+
+const UserModel = mongoose.models.UserModel || mongoose.model('userModel', userSchema);
 
 export default UserModel;
